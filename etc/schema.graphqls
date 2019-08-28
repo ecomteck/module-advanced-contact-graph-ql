@@ -1,0 +1,37 @@
+# Copyright © Ecomteck (ecomteck@gmail.com). All rights reserved.
+# Please visit Ecomteck.com for license details (https://www.ecomteck.com/LICENSE.txt).
+
+type Query {
+    getContactForm:ContactForm @resolver(class: "\\Ecomteck\\AdvancedContactGraphQl\\Model\\Resolver\\ContactForm") @doc(description: "get Contact form setting to frontend")
+}
+
+type ContactForm {
+    total_field_count: Int @doc(description: "The number of contact fields")
+    fields: [Fields] @doc(description: "The detail of fields")
+}
+
+type Fields {
+    key: String @doc(description: "key of the field")
+    label: String @doc(description: "label of the field")
+    class: String @doc(description: "class of the field")
+    field_type: String @doc(description: "type of the field")
+}
+
+type Mutation {
+    sendContact(
+        input: SendContactInput
+    ): SendContactOutput @resolver(class: "\\Ecomteck\\AdvancedContactGraphQl\\Model\\Resolver\\SendContact") @doc(description: "send customer/visitor contact to Shop owner")
+}
+
+input InputKeyValue {
+    key: String! @doc(description: "key of the field")
+    value: String! @doc(description: "form value")
+}
+
+input SendContactInput {
+    info: [InputKeyValue]!
+}
+
+type SendContactOutput {
+    message: String @doc(description: "return a message result about send contact")
+}
